@@ -1,0 +1,4 @@
+runtime/
+*.log
+*.incomplete
+.DS_Store
