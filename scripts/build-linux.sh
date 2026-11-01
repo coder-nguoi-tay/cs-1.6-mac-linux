@@ -17,8 +17,8 @@ export SDL2_CONFIG=$(which sdl2-config)
 
 # ---------- 1. Engine ----------
 cd "$SRC/src/xash3d-fwgs"
-./waf configure --out=build-linux -8 || exit 1
-./waf build -j2 || exit 1
+./waf configure --out=build-linux -8 --disable-mbedtls || exit 1
+./waf build -j1 || exit 1
 mkdir -p "$SRC/runtime-linux/cstrike/cl_dlls" "$SRC/runtime-linux/cstrike/dlls"
 cp build-linux/xash3d build-linux/libxash.so "$SRC/runtime-linux/" 2>/dev/null || cp build-linux/*.so "$SRC/runtime-linux/" 2>/dev/null || true
 cp build-linux/filesystem/filesystem_stdio.so "$SRC/runtime-linux/" 2>/dev/null || true
