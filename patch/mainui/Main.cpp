@@ -202,7 +202,8 @@ void CMenuMain::_Init( void )
 	newGame.SetNameAndStatus( "New Game", "Choi offline voi bot tren ban do tuy chon." );
 	newGame.SetPicture( PC_NEW_GAME );
 	newGame.iFlags |= QMF_NOTIFY;
-	newGame.onReleased = UI_NewGame_Menu;
+	// In CS 1.6 "New Game" opens the Create Game dialog (map, bots, maxplayers)
+	newGame.onReleased = UI_CreateGame_Menu;
 
 	findServers.SetNameAndStatus( "Find Servers", "Tim server multiplayer (LAN/Internet)." );
 	findServers.SetPicture( PC_MULTIPLAYER );
@@ -287,6 +288,10 @@ void CMenuMain::_Init( void )
 		hazardCourse.SetGrayed( true );
 		newGame.SetGrayed( true );
 	}
+
+	// classic CS 1.6: New Game always opens Create Game dialog (bot room),
+	// never gray it out based on singleplayer gameinfo
+	newGame.SetGrayed( false );
 
 	if( FBitSet( gMenu.m_gameinfo.flags, GFL_ANIMATED_TITLE ))
 	{

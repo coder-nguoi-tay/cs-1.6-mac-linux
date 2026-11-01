@@ -11,6 +11,6 @@ hlversion "1111"
 nomodels "1"
 nohimodel "1"
 mpentity "info_player_start"
-gamedll "dlls\cs"
+gamedll "dlls\yapb"
 trainmap "tr_1"
 

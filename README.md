@@ -115,3 +115,9 @@ prebuilt/                # dylibs arm64 build 2026-10-31 (kéo về là dùng)
 
 Engine/client: GPL (các upstream tương ứng). Gamedata Valve © Valve — **tự chuẩn bị**,
 kho ứng dụng nội bộ. Chỉ dùng trong môi trường gia đình/máy cá nhân.
+## Bots & Create Game (fixed)
+- "New Game" giờ mở trực tiếp **Create Game** (map, maxplayers, password) + bots tự join qua YaPB (`gamedll "dlls\yapb"` trong liblist.gam).
+- `server.cfg` có `yb_quota 9` — phòng mới tạo luôn có 9 bot.
+- macOS: tắt App Nap cho máy chỉ định nếu input menu bị "chết" khi idle:
+  `defaults write NSGlobalDomain NSAppSleepDisabled -bool YES`
+- F1/F2 (autobuy/rebuy) hoạt động; mua đồ chỉ trong buy time đầu round (như CS thật).
