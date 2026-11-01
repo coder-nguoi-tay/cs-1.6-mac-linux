@@ -125,3 +125,11 @@ kho ứng dụng nội bộ. Chỉ dùng trong môi trường gia đình/máy c�
 - `gl_vsync 0` trong userconfig.cfg: bỏ tật treo Cocoa_GL_SwapWindow (SDL2/mac) + giảm input lag.
 - `fps_max 144` cho mượt.
 - Nếu macOS hỏi lại "Allow Terminal to record screen" -> bấm Allow (không thì remote/automation không chụp được màn hình).
+
+## New Game dialog (Create Game)
+- Chọn map, số BOT (0–20) `yb_quota`, độ khó BOT Easy/Normal/Hard/Expert `yb_difficulty`,
+  thời gian vòng (1–9 phút) `mp_roundtime`, tiền khởi đầu (800–16000) `mp_startmoney`.
+- Giá trị lưu vào `cstrike/creategame.cfg` và áp qua `creategame_map.cfg` (engine exec lúc server spawn).
+
+## In-game pause menu (ESC)
+- Resume game / Restart Round (`mp_restartgame 1`) / Disconnect / Options / Quit Game — như CS 1.6.

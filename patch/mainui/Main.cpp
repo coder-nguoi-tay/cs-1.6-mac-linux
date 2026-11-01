@@ -75,6 +75,7 @@ private:
 	CMenuPicButton	customGame;
 	CMenuPicButton	readme;
 	CMenuPicButton	previews;
+	CMenuPicButton	restartRound;
 	CMenuPicButton	quit;
 
 	// buttons on top right. Maybe should be drawn if fullscreen == 1?
@@ -248,10 +249,21 @@ void CMenuMain::_Init( void )
 	previews.iFlags |= QMF_NOTIFY;
 	SET_EVENT( previews.onReleased, EngFuncs::ShellExecute( MenuStrings[ IDS_MEDIA_PREVIEWURL ], NULL, false ) );
 
+	restartRound.SetNameAndStatus( "Restart Round", "Choi lai tung vong dau (giu ty so)." );
+	restartRound.SetPicture( PC_REFRESH );
+	restartRound.iFlags |= QMF_NOTIFY;
+	SET_EVENT_MULTI( restartRound.onReleased,
+	{
+		EngFuncs::ClientCmd( false, "mp_restartgame 1\n" );
+		UI_CloseMenu();
+	});
+
 	quit.SetNameAndStatus( "Quit Game", L( "GameUI_QuitConfirmationText" ) );
 	quit.SetPicture( PC_QUIT );
 	quit.iFlags |= QMF_NOTIFY;
 	quit.onReleased = VoidCb( &CMenuMain::QuitDialogCb );
+
+	AddItem( restartRound );
 
 	quitButton.SetPicture( ART_CLOSEBTN_N, ART_CLOSEBTN_F, ART_CLOSEBTN_D );
 	quitButton.iFlags = QMF_MOUSEONLY;
@@ -312,6 +324,9 @@ void CMenuMain::_Init( void )
 	AddItem( configuration );
 	AddItem( credits );
 	AddItem( quit );
+	// in-game rows: shown only when a client is connected (see VidInit)
+	AddItem( resumeGame );
+	AddItem( disconnect );
 	AddItem( minimizeBtn );
 	AddItem( quitButton );
 }
@@ -341,9 +356,6 @@ void CMenuMain::VidInit( bool connected )
 	quit.SetCoord( hoffset, y );
 	y -= ygap;
 
-	credits.SetCoord( hoffset, y );
-	y -= ygap;
-
 	configuration.SetCoord( hoffset, y );
 	y -= ygap;
 
@@ -351,14 +363,23 @@ void CMenuMain::VidInit( bool connected )
 
 	if( connected )
 	{
-		resumeGame.SetCoord( hoffset, y );
+		// CS 1.6 pause menu, top->bottom: Resume, Restart Round, Disconnect
+		disconnect.SetCoord( hoffset, y );
 		y -= ygap;
 
 		if( !single )
 		{
-			disconnect.SetCoord( hoffset, y );
+			restartRound.SetCoord( hoffset, y );
 			y -= ygap;
 		}
+
+		resumeGame.SetCoord( hoffset, y );
+		y -= ygap;
+	}
+	else
+	{
+		credits.SetCoord( hoffset, y );
+		y -= ygap;
 	}
 
 	findServers.SetCoord( hoffset, y );
@@ -371,7 +392,12 @@ void CMenuMain::VidInit( bool connected )
 
 	// now figure out what's visible
 	resumeGame.SetVisibility( connected );
+	restartRound.SetVisibility( connected && !single );
 	disconnect.SetVisibility( connected && !single );
+	// when connected (CS 1.6 pause menu): only Resume / Restart / Disconnect / Options / Quit
+	newGame.SetVisibility( !connected );
+	findServers.SetVisibility( !connected );
+	credits.SetVisibility( !connected );
 	// all other legacy buttons stay hidden (not added in _Init)
 
 	if( connected && single )
