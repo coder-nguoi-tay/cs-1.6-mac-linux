@@ -121,3 +121,7 @@ kho ứng dụng nội bộ. Chỉ dùng trong môi trường gia đình/máy c�
 - macOS: tắt App Nap cho máy chỉ định nếu input menu bị "chết" khi idle:
   `defaults write NSGlobalDomain NSAppSleepDisabled -bool YES`
 - F1/F2 (autobuy/rebuy) hoạt động; mua đồ chỉ trong buy time đầu round (như CS thật).
+## Performance / Input fixes
+- `gl_vsync 0` trong userconfig.cfg: bỏ tật treo Cocoa_GL_SwapWindow (SDL2/mac) + giảm input lag.
+- `fps_max 144` cho mượt.
+- Nếu macOS hỏi lại "Allow Terminal to record screen" -> bấm Allow (không thì remote/automation không chụp được màn hình).
